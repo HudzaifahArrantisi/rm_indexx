@@ -83,54 +83,89 @@
         .back-to-top {
             transition: all 0.4s ease;
         }
+        
+        /* Hilangkan scrollbar di HP */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animasi marquee untuk desktop */
         @keyframes marquee {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 20s linear infinite; 
+            animation: marquee 25s linear infinite;
         }
-/* Hilangkan scrollbar di HP */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
 
-/* Animasi marquee untuk desktop */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 25s linear infinite;
-}
+        /* Untuk HP: biar bisa geser manual, ga terlalu cepat */
+        @keyframes marqueeMobile {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee-mobile {
+            animation: marqueeMobile 40s linear infinite;
+        }
 
-/* Untuk HP: biar bisa geser manual, ga terlalu cepat */
-@keyframes marqueeMobile {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-.animate-marquee-mobile {
-  animation: marqueeMobile 40s linear infinite;
-}
-
+        /* Responsive image gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
         
+        @media (max-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Responsive text sizes */
+        .responsive-heading {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+        }
+        
+        .responsive-subheading {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+        }
+        
+        /* Ensure images don't overflow */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Responsive iframe */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="font-poppins text-gray-800 bg-light">
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 transition-all duration-400 py-5 bg-transparent">
-        <div class="container mx-auto px-4 md:px-6">
+    <nav class="fixed w-full z-50 transition-all duration-400 py-3 md:py-5 bg-transparent">
+        <div class="container mx-auto px-4">
             <div class="flex justify-between items-center">
-         <a href="#" class="flex items-center text-white text-2xl font-bold">
-              <img src="logo.jpg" alt="Logo Sambel Uleg" class="h-8 w-auto mr-2 rounded-full">
+                <a href="#" class="flex items-center text-white text-xl md:text-2xl font-bold">
+                    <img src="logo.jpg" alt="Logo Sambel Uleg" class="h-6 md:h-8 w-auto mr-2 rounded-full">
                     Sambel Uleg
-        </a>
+                </a>
                 
                 <!-- Mobile menu button -->
                 <button class="lg:hidden text-white focus:outline-none" id="mobile-menu-button">
@@ -146,7 +181,6 @@
                     <a href="#menu" class="text-white px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10 transition">Menu</a>
                     <a href="#gallery" class="text-white px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10 transition">Galeri</a>
                     <a href="#location" class="text-white px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10 transition">Lokasi</a>
-
                 </div>
             </div>
             
@@ -161,58 +195,58 @@
         </div>
     </nav>
 
-   <!-- Hero Section -->
-<section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
-    <!-- Gambar background -->
-    <img src="gambar1.jpg" 
-         alt="background" 
-         class="absolute inset-0 w-full h-full object-cover z-0">
-    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="container mx-auto px-4 md:px-6 z-10 text-center text-white">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fadein">
-            "Sambel Uleg Kebagusan"
-        </h1>
-        <p class="text-xl md:text-2xl mb-8 animate-fadein">
-            Pilihan Keluarga & Teman Sejak 2006
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fadein">
-            <a href="#menu" class="bg-gradient-primary hover:bg-gradient-to-r hover:from-yellow-600 hover:to-orange-500 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
-                Lihat Menu
-            </a>
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Gambar background -->
+        <img src="gambar1.jpg" 
+             alt="background" 
+             class="absolute inset-0 w-full h-full object-cover z-0">
+        <div class="hero-overlay absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="container mx-auto px-4 z-10 text-center text-white">
+            <h1 class="responsive-heading font-bold mb-4 animate-fadein">
+                "Sambel Uleg Kebagusan"
+            </h1>
+            <p class="responsive-subheading mb-6 md:mb-8 animate-fadein">
+                Pilihan Keluarga & Teman Sejak 2006
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 animate-fadein">
+                <a href="#menu" class="bg-gradient-primary hover:bg-gradient-to-r hover:from-yellow-600 hover:to-orange-500 text-white font-semibold py-3 px-6 md:px-8 rounded-full transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-sm md:text-base">
+                    Lihat Menu
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- About Section -->
-    <section id="about" class="py-16 md:py-24 bg-light">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-20 after:h-1 after:bg-gradient-primary">Tentang Kami</h2>
+    <section id="about" class="py-12 md:py-24 bg-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-4xl font-bold text-center mb-12 md:mb-16 relative after:content-[''] after:absolute after:bottom-[-12px] md:after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-primary">Tentang Kami</h2>
             
-            <div class="flex flex-col lg:flex-row items-center gap-10">
+            <div class="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
                 <div class="w-full lg:w-1/2">
                     <div class="rounded-2xl overflow-hidden shadow-xl">
                         <img src="gambar1.jpg" 
-                             alt="Tentang Sambel Uleg" class="w-100 h-full object-cover">
+                             alt="Tentang Sambel Uleg" class="w-full h-auto object-cover">
                     </div>
                 </div>
                 
                 <div class="w-full lg:w-1/2">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-6">Sambel Uleg dadakan Kebagusan Sejak 2006</h3>
-                    <p class="text-lg mb-4">“Di warung Prasmanan Sambel Uleg Dadakan, konsep lesehan dan prasmanan membawa suasana hangat seperti di rumah.</p>
-                    <p class="mb-8">Varian lauknya beragam—dari ayam kampung goreng, lele, bebek, ikan asin, hingga sayur asam dan lalapan. Rasa sambelnya autentik, pedasnya terasa pas, dan cocok untuk sharing bersama keluarga atau teman.”</p>
+                    <h3 class="text-xl md:text-3xl font-bold mb-4 md:mb-6">Sambel Uleg dadakan Kebagusan Sejak 2006</h3>
+                    <p class="text-base md:text-lg mb-4">"Di warung Prasmanan Sambel Uleg Dadakan, konsep lesehan dan prasmanan membawa suasana hangat seperti di rumah.</p>
+                    <p class="mb-6 md:mb-8">Varian lauknya beragam—dari ayam kampung goreng, lele, bebek, ikan asin, hingga sayur asam dan lalapan. Rasa sambelnya autentik, pedasnya terasa pas, dan cocok untuk sharing bersama keluarga atau teman."</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
-                            <div class="text-3xl font-bold text-primary mb-2">10+</div>
-                            <div class="text-gray-600">Tahun Pengalaman</div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                        <div class="bg-white p-4 md:p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
+                            <div class="text-2xl md:text-3xl font-bold text-primary mb-2">10+</div>
+                            <div class="text-sm md:text-base text-gray-600">Tahun Pengalaman</div>
                         </div>
-                        <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
-                            <div class="text-3xl font-bold text-primary mb-2">20+</div>
-                            <div class="text-gray-600">Menu Pilihan</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
+                            <div class="text-2xl md:text-3xl font-bold text-primary mb-2">20+</div>
+                            <div class="text-sm md:text-base text-gray-600">Menu Pilihan</div>
                         </div>
-                        <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
-                            <div class="text-3xl font-bold text-primary mb-2">112+</div>
-                            <div class="text-gray-600">Pelanggan Puas</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl shadow-md text-center transition-transform duration-300 hover:scale-105">
+                            <div class="text-2xl md:text-3xl font-bold text-primary mb-2">112+</div>
+                            <div class="text-sm md:text-base text-gray-600">Pelanggan Puas</div>
                         </div>
                     </div>
                 </div>
@@ -220,294 +254,287 @@
         </div>
     </section>
 
-<section id="reviews" class="py-12 md:py-20 bg-gray-50">
-  <div class="container mx-auto px-4 md:px-6 text-center">
-    <h2
-      class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 relative 
-      after:content-[''] after:absolute after:bottom-[-10px] sm:after:bottom-[-15px]
-      after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 sm:after:w-20
-      after:h-1 after:bg-gradient-to-r after:from-yellow-400 after:to-red-500">
-      Apa Kata Mereka
-    </h2>
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-12 md:py-20 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-4xl font-bold mb-8 md:mb-12 relative after:content-[''] after:absolute after:bottom-[-10px] md:after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-to-r after:from-yellow-400 after:to-red-500">
+                Apa Kata Mereka
+            </h2>
 
-    <!-- Wrapper -->
-    <div class="overflow-x-auto overflow-y-hidden relative hide-scrollbar">
-      <!-- Sliding track -->
-      <div class="flex space-x-4 sm:space-x-6 animate-marquee-mobile sm:animate-marquee">
-        
-        <!-- Card -->
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
+            <!-- Wrapper -->
+            <div class="overflow-x-auto overflow-y-hidden relative hide-scrollbar">
+                <!-- Sliding track -->
+                <div class="flex space-x-4 md:space-x-6 animate-marquee-mobile md:animate-marquee">
+                    
+                    <!-- Card -->
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-40 md:h-64 object-cover">
+                    </div>
 
-        <!-- Duplikasi biar looping seamless -->
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
-          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-48 sm:h-64 md:h-72 object-cover">
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
- <!-- Menu Section -->
-<section id="menu" class="py-16 md:py-24 bg-cover bg-fixed bg-center relative" style="background-image:url('img/gambar2.jpg');">
-    <div class="absolute inset-0 bg-light bg-opacity-95"></div>
-    <div class="container mx-auto px-4 md:px-6 relative z-10">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-20 after:h-1 after:bg-gradient-primary">
-            Menu Andalan
-        </h2>
-
-        <!-- GRID: HP = 2 kolom, Laptop = 3 kolom -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-            
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="ayamkampung.jpeg" alt="Ayam Kampung Kebagusan" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Ayam Kampung Kebagusan</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Ayam kampung dengan bumbu khas, disajikan dengan sambal uleg.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 20.000</span>
+                    <!-- Duplikasi biar looping seamless -->
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-40 md:h-64 object-cover">
+                    </div>
+                    <div class="min-w-[250px] md:min-w-[350px] rounded-lg shadow-md md:shadow-lg overflow-hidden bg-white">
+                        <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-40 md:h-64 object-cover">
                     </div>
                 </div>
             </div>
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="peda.jpg" alt="Ikan Peda" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Ikan Peda</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Ikan asin dan digoreng, disajikan dengan sambal.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 2000</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="jengkol.jpg" alt="Jengkol balado" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Jengkol Balado</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Jengkol yang dimasak dengan bumbu balado pedas.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 20.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="pepesmas.webp" alt="Pepes Ikan" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Pepes Ikan</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Ikan yang dibumbui dan dibungkus daun pisang, kemudian dikukus.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 20.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="sayurasem.jpg" alt="Sayur Asem" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Sayur Asem</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Sayur asem segar dengan bumbu rempah pilihan</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 10.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Menu Item -->
-            <div class="menu-item bg-white rounded-2xl overflow-hidden shadow-lg">
-                <div class="h-40 md:h-56 overflow-hidden">
-                    <img src="bebek.jpg" alt="Bebek Goreng" 
-                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="p-3 md:p-6">
-                    <h3 class="text-base md:text-xl font-bold mb-2">Bebek Goreng</h3>
-                    <p class="text-gray-600 mb-3 md:mb-4 text-xs md:text-base">Bebek dengan harga yang murah se Kebagusan</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-primary font-bold text-sm md:text-xl">Rp 20.000</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </section>
 
-        <!-- Button -->
-        <div class="text-center mt-12">
-            <a href="#" class="bg-gradient-primary text-white font-semibold py-3 px-8 rounded-full inline-block transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
-                Lihat Menu Lengkap
-            </a>
+    <!-- Menu Section -->
+    <section id="menu" class="py-12 md:py-24 bg-cover bg-fixed bg-center relative" style="background-image:url('img/gambar2.jpg');">
+        <div class="absolute inset-0 bg-light bg-opacity-95"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-2xl md:text-4xl font-bold text-center mb-12 md:mb-16 relative after:content-[''] after:absolute after:bottom-[-12px] md:after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-primary">
+                Menu Andalan
+            </h2>
+
+            <!-- GRID: HP = 2 kolom, Laptop = 3 kolom -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="ayamkampung.jpeg" alt="Ayam Kampung Kebagusan" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Ayam Kampung Kebagusan</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Ayam kampung dengan bumbu khas, disajikan dengan sambal uleg.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 20.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="peda.jpg" alt="Ikan Peda" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Ikan Peda</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Ikan asin dan digoreng, disajikan dengan sambal.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 2000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="jengkol.jpg" alt="Jengkol balado" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Jengkol Balado</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Jengkol yang dimasak dengan bumbu balado pedas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 20.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="pepesmas.webp" alt="Pepes Ikan" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Pepes Ikan</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Ikan yang dibumbui dan dibungkus daun pisang, kemudian dikukus.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 20.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="sayurasem.jpg" alt="Sayur Asem" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Sayur Asem</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Sayur asem segar dengan bumbu rempah pilihan</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 10.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item -->
+                <div class="menu-item bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-32 md:h-48 overflow-hidden">
+                        <img src="bebek.jpg" alt="Bebek Goreng" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h3 class="text-sm md:text-xl font-bold mb-1 md:mb-2">Bebek Goreng</h3>
+                        <p class="text-xs md:text-base text-gray-600 mb-2 md:mb-4">Bebek dengan harga yang murah se Kebagusan</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-xs md:text-xl">Rp 20.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="text-center mt-8 md:mt-12">
+                <a href="#" class="bg-gradient-primary text-white font-semibold py-2 md:py-3 px-6 md:px-8 rounded-full inline-block transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-sm md:text-base">
+                    Lihat Menu Lengkap
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-12 md:py-24 bg-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-4xl font-bold text-center mb-12 md:mb-16 relative after:content-[''] after:absolute after:bottom-[-12px] md:after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-primary">
+                Galeri Kami
+            </h2>
 
-  <!-- Gallery Section -->
-<section id="gallery" class="py-16 md:py-24 bg-light">
-  <div class="container mx-auto px-4 md:px-6">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-20 after:h-1 after:bg-gradient-primary">
-      Galeri Kami
-    </h2>
+            <!-- Grid Instagram style -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                <!-- Item 1 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri8.jpg" 
+                         alt="Interior Restoran" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <!-- Item 2 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri7.jpg" 
+                         alt="Interior Restoran" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
 
-    <!-- Grid Instagram style -->
-    <div class="grid grid-cols-12 gap-2 sm:gap-4">
-      <!-- Item 1 -->
-      <div class="col-span-12 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri8.jpg" 
-             alt="Interior Restoran" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
-        <!-- Item 2 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri7.jpg" 
-             alt="Interior Restoran" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
+                <!-- Item 3 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri4.jpg" 
+                         alt="Hidangan Spesial" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
 
-      <!-- Item 3 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri4.jpg" 
-             alt="Hidangan Spesial" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
+                <!-- Item 4 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri3.jpg" 
+                         alt="Proses Memasak" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
 
-      <!-- Item 4 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri3.jpg" 
-             alt="Proses Memasak" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
+                <!-- Item 5 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri9.jpg" 
+                         alt="Acara Khusus" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
 
-      <!-- Item 5 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri9.jpg" 
-             alt="Acara Khusus" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
+                <!-- Item 6 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri5.jpg" 
+                         alt="Tim Kami" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
 
-      <!-- Item 6 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri5.jpg" 
-             alt="Tim Kami" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
-
-      <!-- Item 7 -->
-      <div class="col-span-6 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri6.jpg" 
-             alt="Dessert Khas" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
-      <!-- Item 8 -->
-      <div class="col-span-12 sm:col-span-4 md:col-span-3 gallery-item overflow-hidden rounded-lg">
-        <img src="galeri1.jpg" 
-             alt="Dessert Khas" 
-             class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
-      </div>
-    </div>
-  </div>
-</section>
+                <!-- Item 7 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri6.jpg" 
+                         alt="Dessert Khas" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <!-- Item 8 -->
+                <div class="gallery-item overflow-hidden rounded-lg">
+                    <img src="galeri1.jpg" 
+                         alt="Dessert Khas" 
+                         class="w-full aspect-square object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Location Section -->
-<section id="location" class="py-16 md:py-24 bg-cover bg-fixed bg-center relative text-white" 
-    style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('gambar1.jpg');">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-20 after:h-1 after:bg-gradient-primary">Lokasi Kami</h2>
+    <section id="location" class="py-12 md:py-24 bg-cover bg-fixed bg-center relative text-white" 
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('gambar1.jpg');">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-4xl font-bold text-center mb-12 md:mb-16 relative after:content-[''] after:absolute after:bottom-[-12px] md:after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-primary">Lokasi Kami</h2>
             
-            <div class="flex flex-col lg:flex-row gap-10">
+            <div class="flex flex-col lg:flex-row gap-6 md:gap-10">
                 <div class="w-full lg:w-1/2">
-                    <div class="rounded-2xl overflow-hidden shadow-xl h-96">
+                    <div class="map-container rounded-2xl overflow-hidden shadow-xl">
                         <iframe 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.269646215117!2d106.82328777499674!3d-6.311688393691127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed001f1560e7%3A0x462dd7670d89abf8!2sSambel%20Uleg%20Dadakan%20Kebagusan!5e0!3m2!1sid!2sid!4v1726200000000!5m2!1sid!2sid" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
-                        </div>
-
+                    </div>
                 </div>
                 
                 <div class="w-full lg:w-1/2">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-6">Kunjungi Restoran Kami</h3>
+                    <h3 class="text-xl md:text-3xl font-bold mb-4 md:mb-6">Kunjungi Restoran Kami</h3>
                     
-                    <div class="space-y-6">
+                    <div class="space-y-4 md:space-y-6">
                         <div class="flex items-start">
-                            <div class="text-primary text-xl mr-4 mt-1">
+                            <div class="text-primary text-lg md:text-xl mr-3 md:mr-4 mt-1">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-1">Alamat</h4>
-                                <p>Jl. Kebagusan Raya No.12A, RT.8/RW.6, Kebagusan, Ps. Minggu, Kota Jakarta Selatan</p>
+                                <h4 class="text-lg md:text-xl font-semibold mb-1">Alamat</h4>
+                                <p class="text-sm md:text-base">Jl. Kebagusan Raya No.12A, RT.8/RW.6, Kebagusan, Ps. Minggu, Kota Jakarta Selatan</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="text-primary text-xl mr-4 mt-1">
+                            <div class="text-primary text-lg md:text-xl mr-3 md:mr-4 mt-1">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-1">Jam Operasional</h4>
-                                <p>Selasa - Jumat: 15.00 - 22.00 WIB</p>
-                                <p>Sabtu - Minggu: 12.00 - 22.00 WIB</p>
+                                <h4 class="text-lg md:text-xl font-semibold mb-1">Jam Operasional</h4>
+                                <p class="text-sm md:text-base">Selasa - Jumat: 15.00 - 22.00 WIB</p>
+                                <p class="text-sm md:text-base">Sabtu - Minggu: 12.00 - 22.00 WIB</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="text-primary text-xl mr-4 mt-1">
+                            <div class="text-primary text-lg md:text-xl mr-3 md:mr-4 mt-1">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-1">Telepon</h4>
-                                <p>085697885132</p>
+                                <h4 class="text-lg md:text-xl font-semibold mb-1">Telepon</h4>
+                                <p class="text-sm md:text-base">085697885132</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="text-primary text-xl mr-4 mt-1">
+                            <div class="text-primary text-lg md:text-xl mr-3 md:mr-4 mt-1">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-1">Email</h4>
-                                <p>info@sambeluleg.com</p>
+                                <h4 class="text-lg md:text-xl font-semibold mb-1">Email</h4>
+                                <p class="text-sm md:text-base">info@sambeluleg.com</p>
                             </div>
                         </div>
                     </div>
@@ -517,87 +544,56 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-12">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer class="bg-dark text-white py-8 md:py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <div>
-                    <h4 class="text-xl font-bold mb-4">Sambel Uleg</h4>
-                    <p class="mb-4">Menghadirkan cita rasa autentik Indonesia dengan sentuhan modern sejak 1995.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-facebook-f text-lg"></i></a>
-                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-instagram text-lg"></i></a>
-                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-twitter text-lg"></i></a>
-                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-youtube text-lg"></i></a>
+                    <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Sambel Uleg</h4>
+                    <p class="mb-4 text-sm md:text-base">Menghadirkan cita rasa autentik Indonesia dengan sentuhan modern sejak 1995.</p>
+                    <div class="flex space-x-3 md:space-x-4">
+                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-facebook-f text-base md:text-lg"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-instagram text-base md:text-lg"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-twitter text-base md:text-lg"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition"><i class="fab fa-youtube text-base md:text-lg"></i></a>
                     </div>
                 </div>
                 
                 <div>
-                    <h4 class="text-xl font-bold mb-4">Tautan Cepat</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#home" class="hover:text-primary transition">Home</a></li>
-                        <li><a href="#about" class="hover:text-primary transition">Tentang Kami</a></li>
-                        <li><a href="#menu" class="hover:text-primary transition">Menu</a></li>
-                        <li><a href="#gallery" class="hover:text-primary transition">Galeri</a></li>
-                        <li><a href="#location" class="hover:text-primary transition">Lokasi</a></li>
+                    <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-1 md:space-y-2">
+                        <li><a href="#home" class="hover:text-primary transition text-sm md:text-base">Home</a></li>
+                        <li><a href="#about" class="hover:text-primary transition text-sm md:text-base">Tentang Kami</a></li>
+                        <li><a href="#menu" class="hover:text-primary transition text-sm md:text-base">Menu</a></li>
+                        <li><a href="#gallery" class="hover:text-primary transition text-sm md:text-base">Galeri</a></li>
+                        <li><a href="#location" class="hover:text-primary transition text-sm md:text-base">Lokasi</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h4 class="text-xl font-bold mb-4">Kontak</h4>
-                    <ul class="space-y-2">
+                    <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Kontak</h4>
+                    <ul class="space-y-1 md:space-y-2">
                         <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt mr-3 mt-1 text-primary"></i>
-                            <span>Jl. Kebagusan Raya No.12A, RT.8/RW.6, Kebagusan, Ps. Minggu, Kota Jakarta Selatan</span>
+                            <i class="fas fa-map-marker-alt mr-2 md:mr-3 mt-1 text-primary text-sm md:text-base"></i>
+                            <span class="text-sm md:text-base">Jl. Kebagusan Raya No.12A, RT.8/RW.6, Kebagusan, Ps. Minggu, Kota Jakarta Selatan</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-phone-alt mr-3 mt-1 text-primary"></i>
-                            <span>085697885132</span>
+                            <i class="fas fa-phone-alt mr-2 md:mr-3 mt-1 text-primary text-sm md:text-base"></i>
+                            <span class="text-sm md:text-base">085697885132</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-envelope mr-3 mt-1 text-primary"></i>
-                            <span>info@sambeluleg.com</span>
+                            <i class="fas fa-envelope mr-2 md:mr-3 mt-1 text-primary text-sm md:text-base"></i>
+                            <span class="text-sm md:text-base">info@sambeluleg.com</span>
                         </li>
                     </ul>
                 </div>
+            </div>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <a href="#" class="back-to-top fixed bottom-8 right-8 bg-gradient-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:shadow-xl">
-        <i class="fas fa-arrow-up"></i>
+    <a href="#" class="back-to-top fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-gradient-primary text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:shadow-xl">
+        <i class="fas fa-arrow-up text-sm md:text-base"></i>
     </a>
-
-<!-- Login Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="login-modal">
-    <div class="bg-white rounded-2xl w-11/12 md:w-96 max-w-md p-6 relative">
-        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" id="close-login-modal">
-            <i class="fas fa-times text-xl"></i>
-        </button>
-        
-        <div class="bg-gradient-primary text-white py-4 px-6 rounded-t-2xl -mx-6 -mt-6 mb-6">
-            <h3 class="text-xl font-bold">Login ke Sistem</h3>
-        </div>
-        
-        <form action="login.php" method="POST" autocomplete="off">
-            <div class="mb-4">
-                <label for="username" class="block text-gray-700 mb-2">Username</label>
-                <input type="text" id="username" name="username" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-            </div>
-            
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 mb-2">Password</label>
-                <input type="password" id="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-            </div>
-            
-            <div class="flex items-center mb-4">
-                <input type="checkbox" id="remember" class="mr-2">
-                <label for="remember" class="text-gray-700">Ingat saya</label>
-            </div>
-            
-            <button type="submit" class="bg-gradient-primary text-white w-full py-3 rounded-lg font-semibold hover:shadow-lg transition">Login</button>
-        </form>
-    </div>
-</div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -660,23 +656,29 @@
             const loginButtons = document.querySelectorAll('a[data-bs-target="#loginModal"]');
             const closeLoginModal = document.getElementById('close-login-modal');
             
-            loginButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    loginModal.classList.remove('hidden');
+            if (loginButtons.length > 0) {
+                loginButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        loginModal.classList.remove('hidden');
+                    });
                 });
-            });
+            }
             
-            closeLoginModal.addEventListener('click', function() {
-                loginModal.classList.add('hidden');
-            });
-            
-            // Close modal when clicking outside
-            loginModal.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
+            if (closeLoginModal) {
+                closeLoginModal.addEventListener('click', function() {
                     loginModal.classList.add('hidden');
-                }
-            });
+                });
+            }
+            
+            if (loginModal) {
+                // Close modal when clicking outside
+                loginModal.addEventListener('click', function(e) {
+                    if (e.target === loginModal) {
+                        loginModal.classList.add('hidden');
+                    }
+                });
+            }
             
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -698,6 +700,4 @@
         });
     </script>
 </body>
-
 </html>
-
