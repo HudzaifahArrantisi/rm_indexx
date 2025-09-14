@@ -92,6 +92,34 @@
             width: max-content;
             animation: marquee 20s linear infinite; 
         }
+/* Hilangkan scrollbar di HP */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animasi marquee untuk desktop */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* Untuk HP: biar bisa geser manual, ga terlalu cepat */
+@keyframes marqueeMobile {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee-mobile {
+  animation: marqueeMobile 40s linear infinite;
+}
+
+        
     </style>
 </head>
 <body class="font-poppins text-gray-800 bg-light">
@@ -192,51 +220,53 @@
         </div>
     </section>
 
-<!-- Ulasan Section -->
-<section id="reviews" class="py-16 md:py-24 bg-gray-50">
+<section id="reviews" class="py-12 md:py-20 bg-gray-50">
   <div class="container mx-auto px-4 md:px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-12 relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-20 after:h-1 after:bg-gradient-to-r after:from-yellow-400 after:to-red-500">
+    <h2
+      class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 relative 
+      after:content-[''] after:absolute after:bottom-[-10px] sm:after:bottom-[-15px]
+      after:left-1/2 after:transform after:-translate-x-1/2 after:w-16 sm:after:w-20
+      after:h-1 after:bg-gradient-to-r after:from-yellow-400 after:to-red-500">
       Apa Kata Mereka
     </h2>
 
     <!-- Wrapper -->
-    <div class="overflow-hidden relative">
+    <div class="overflow-x-auto overflow-y-hidden relative hide-scrollbar">
       <!-- Sliding track -->
-      <div class="flex animate-marquee space-x-6">
+      <div class="flex space-x-4 sm:space-x-6 animate-marquee-mobile sm:animate-marquee">
         
-        <!-- SET 1 -->
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-72 object-cover">
+        <!-- Card -->
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
 
-        <!-- SET 2 (duplikasi biar seamless) -->
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-72 object-cover">
+        <!-- Duplikasi biar looping seamless -->
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan1.jpg" alt="Ulasan 1" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan2.jpg" alt="Ulasan 2" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="ulasan3.jpg" alt="Ulasan 3" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
-        <div class="min-w-[350px] sm:min-w-[400px] md:min-w-[500px] rounded-xl shadow-lg overflow-hidden bg-white">
-          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-72 object-cover">
+        <div class="min-w-[250px] sm:min-w-[350px] md:min-w-[450px] rounded-lg shadow-md sm:shadow-lg overflow-hidden bg-white">
+          <img src="galeri2.jpg" alt="Ulasan 4" class="w-full h-48 sm:h-64 md:h-72 object-cover">
         </div>
 
       </div>
     </div>
   </div>
 </section>
-
  <!-- Menu Section -->
 <section id="menu" class="py-16 md:py-24 bg-cover bg-fixed bg-center relative" style="background-image:url('img/gambar2.jpg');">
     <div class="absolute inset-0 bg-light bg-opacity-95"></div>
@@ -670,3 +700,4 @@
 </body>
 
 </html>
+
